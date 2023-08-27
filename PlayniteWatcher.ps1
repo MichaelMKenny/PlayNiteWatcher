@@ -8,7 +8,7 @@ Register-EngineEvent -SourceIdentifier GamePathRecieved -Action {
 }
 
 $path = Split-Path $MyInvocation.MyCommand.Path -Parent
-$playNitePath = "F:\\Software\\Playnite\\Playnite.DesktopApp.exe"
+$playNitePath = "C:\\Users\\Michael\\AppData\\Local\\Playnite\\Playnite.DesktopApp.exe"
 $fullScreenPath = "$(Split-Path $playNitePath -Parent)\\Playnite.FullscreenApp.exe"
 $fullScreenMode = $false
 

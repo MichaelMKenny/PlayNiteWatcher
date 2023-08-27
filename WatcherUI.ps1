@@ -45,7 +45,7 @@ function LoadGames($configPath) {
     $JsonContent = Get-Content -Encoding utf8 -Path $configPath -Raw | ConvertFrom-Json
 
     # Filter games with PlayNite commands
-    $PlayNiteGames = $JsonContent.apps | Where-Object { ($_.detached -match 'PlayNite' -or $_.cmd -match 'PlayNite') -and ($_.name -ne "PlayNite FullScreen App") }
+    $PlayNiteGames = $JsonContent.apps | Where-Object { ($_.detached -match 'PlayNite' -or $_.cmd -match 'PlayNite') -and ($_.name -ne "Playnite") }
     $script:sunshineApps = $PlayNiteGames
 
     # Clear the current list
@@ -167,9 +167,9 @@ $window.FindName("InstallButton").Add_Click({
         $updatedApps = $JsonContent.apps.Clone()
 
         ## add FullScreen applet
-        if($null -eq ($updatedApps | Where-Object {$_.name -eq "PlayNite FullScreen App"})){
+        if($null -eq ($updatedApps | Where-Object {$_.name -eq "Playnite"})){
             $updatedApps += [PSCustomObject]@{
-                name = "PlayNite FullScreen App"
+                name = "Playnite"
                 'image-path' = "$scriptPath\playnite-boxart.png"
                 cmd = "powershell.exe -executionpolicy bypass -windowstyle hidden -file `"$scriptPath\PlayniteWatcher.ps1`" FullScreen"
             }
@@ -217,7 +217,7 @@ $window.FindName("UninstallButton").Add_Click({
             $JsonContent = Get-Content -Encoding utf8 -Path $configPathTextBox.Text -Raw | ConvertFrom-Json
             $playnitePath = $playNitePathTextBox.Text
             $playniteRoot = Split-Path $playnitePath -Parent
-            $updatedApps = $JsonContent.apps.Clone() | Where-Object {$_.name -ne "PlayNite FullScreen App"}
+            $updatedApps = $JsonContent.apps.Clone() | Where-Object {$_.name -ne "Playnite"}
     
             foreach ($checkBox in $gameList.Children) {
                 $appName = $checkBox.Content
@@ -232,7 +232,7 @@ $window.FindName("UninstallButton").Add_Click({
             }
 
             # Remove FullScreen Applet
-            $updatedApps = $updatedApps | Where-Object {$_.name -ne 'PlayNite FullScreen App'}
+            $updatedApps = $updatedApps | Where-Object {$_.name -ne 'Playnite'}
     
             SaveChanges -configPath $configPathTextBox.Text -updatedApps $updatedApps -JsonContent $JsonContent
     
