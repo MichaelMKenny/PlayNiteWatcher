@@ -61,5 +61,5 @@ function CloseDesktopGracefully() {
 if ($terminate) {
     TerminatePipes
     CloseLaunchedGame
-    CloseDesktopGracefully
+    # CloseDesktopGracefully
 }
