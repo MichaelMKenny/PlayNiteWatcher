@@ -12,6 +12,7 @@ Register-EngineEvent -SourceIdentifier GamePathRecieved -Action {
 $path = Split-Path $MyInvocation.MyCommand.Path -Parent
 $playNitePath = "C:\\Users\\Michael\\AppData\\Local\\Playnite\\Playnite.DesktopApp.exe"
 $sunshineConfigPath = "C:\\Program Files\\Sunshine\\config\\apps.json"
+$nircmdPath = "C:\\Users\\Michael\\bin\\nircmd\\nircmd.exe"
 $fullScreenPath = "$(Split-Path $playNitePath -Parent)\\Playnite.FullscreenApp.exe"
 $fullScreenMode = $false
 
@@ -24,32 +25,19 @@ function Set-ForegroundWindow {
         [string]$processName
     )
 
-    Add-Type -ErrorAction SilentlyContinue -TypeDefinition  @"
-    using System;
-    using System.Runtime.InteropServices;
-
-    public class WindowHelper
-    {
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetForegroundWindow(IntPtr hWnd);
-    }
-"@
-
     # Get the process ID (PID) of the application you want to bring to the foreground
     $processID = Get-Process -Name $processName | Select-Object -ExpandProperty ID
 
     # Find the application's main window handle using the process ID
     $mainWindowHandle = (Get-Process -id $processID).MainWindowHandle
 
-    # Bring the application to the foreground
-    [WindowHelper]::SetForegroundWindow($mainWindowHandle) | Out-Null
+    Invoke-Expression "$nircmdPath win activate handle $mainWindowHandle"
 }
 
 function Watch-AndApplyFocusToGame {
     param (
         [string]$gamePath,
-        [int]$maximumAttempts = 10
+        [int]$maximumAttempts
     )
 
     $executables = Get-ChildItem -Path $gamePath -Filter *.exe -Recurse
