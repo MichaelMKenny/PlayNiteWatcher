@@ -6,7 +6,7 @@ Register-EngineEvent -SourceIdentifier GamePathRecieved -Action {
         Write-Host ("Received GamePath: $gamePath")
     }
     
-    Watch-AndApplyFocusToGame -gamePath $gamePath -maximumAttempts 10
+    Watch-AndApplyFocusToGame -gamePath $gamePath -maximumAttempts 15
 }
 
 $path = Split-Path $MyInvocation.MyCommand.Path -Parent
@@ -47,7 +47,7 @@ function Watch-AndApplyFocusToGame {
 
     while ($attempts -lt $maximumAttempts) {
         $attempts++
-        Start-Sleep -Seconds 1
+        Start-Sleep -Seconds 2
         $processInfos = @()
         foreach ($executable in $executables) {
             $process = Get-Process -Name $executable.Name.Split('.')[0] -ErrorAction SilentlyContinue
