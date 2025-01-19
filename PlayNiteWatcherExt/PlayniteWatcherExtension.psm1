@@ -84,5 +84,4 @@ function OnGameUninstalled() {
 
 function OnGameSelected() {
     param($gameSelectionEventArgs)
-    $__logger.Info("OnGameSelected $($gameSelectionEventArgs.OldValue) -> $($gameSelectionEventArgs.NewValue)")
 }
