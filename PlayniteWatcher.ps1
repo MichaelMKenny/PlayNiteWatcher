@@ -115,7 +115,6 @@ try {
 
 
     if ($playNiteId -ne "FullScreen") {
-        Start-Sleep -Seconds 2
         Start-Process -FilePath $playNitePath  -ArgumentList "--start $playNiteId"
     }
     else {
